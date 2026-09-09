@@ -1,4 +1,175 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>کافه دوتایی‌ها</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f7f1eb;
+      color: #3f3530;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+    }
+
+    .cafe {
+      width: 100%;
+      max-width: 650px;
+      background: white;
+      border-radius: 28px;
+      padding: 45px 30px;
+      text-align: center;
+      box-shadow: 0 10px 35px rgba(70, 50, 40, 0.12);
+    }
+
+    .cup {
+      font-size: 55px;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 34px;
+      margin-bottom: 12px;
+      color: #5a4035;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      line-height: 2;
+      color: #76645b;
+      margin-bottom: 30px;
+    }
+
+    .welcome {
+      background: #f8eee7;
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 28px;
+      line-height: 2;
+      font-size: 16px;
+    }
+
+    .question {
+      font-size: 21px;
+      margin-bottom: 20px;
+      color: #5a4035;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    button {
+      border: none;
+      border-radius: 15px;
+      padding: 17px;
+      font-family: inherit;
+      font-size: 16px;
+      cursor: pointer;
+      background: #8c6a5a;
+      color: white;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .secondary {
+      background: #eee3db;
+      color: #5a4035;
+    }
+
+    #message {
+      display: none;
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 18px;
+      background: #f8eee7;
+      line-height: 2;
+      font-size: 16px;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #9a8880;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="cafe">
+
+    <div class="cup">☕</div>
+
+    <h1>کافه دوتایی‌ها</h1>
+
+    <p class="subtitle">
+      جایی برای حرف‌هایی که شاید جایی برای گفتنشان پیدا نکرده‌ای.
+    </p>
+
+    <div class="welcome">
+      اینجا قرار نیست قضاوتت کنیم.<br>
+      لازم نیست قوی باشی، لازم نیست همه‌چیز را توضیح بدهی.
+      <br>
+      فقط می‌توانی چند لحظه خودت باشی.
+    </div>
+
+    <div class="question">
+      امروز دلت کدام فنجان را می‌خواهد؟
+    </div>
+
+    <div class="buttons">
+
+      <button onclick="showMessage('گاهی آدم فقط یک چای قندپهلو و یک گوش شنوا می‌خواهد. اینجا می‌توانی آرام‌آرام حرفت را شروع کنی؛ حتی اگر ندانی از کجا.')">
+        ☕ چای قندپهلو؛ می‌خواهم حرف بزنم
+      </button>
+
+      <button class="secondary" onclick="showMessage('گاهی لازم نیست حرفی بزنی. می‌توانی بنشینی، گوش بدهی و فقط چند لحظه در آرامش بمانی. شاید یک دمنوش آرام‌بخش برای امروزت کافی باشد.')">
+        🌿 دمنوش آرام‌بخش؛ می‌خواهم گوش بدهم
+      </button>
+
+      <button class="secondary" onclick="showMessage('اشکالی ندارد اگر هنوز نمی‌دانی چه می‌خواهی. فعلاً می‌توانی کمی سکوت کنی. هیچ عجله‌ای نیست.')">
+        🤍 کمی سکوت؛ نمی‌دانم چه می‌خواهم
+      </button>
+
+    </div>
+
+    <div id="message"></div>
+
+    <footer>
+      کافه دوتایی‌ها · یک جای امن برای گفتگو
+    </footer>
+
+  </main>
+
+  <script>
+    function showMessage(text) {
+      const message = document.getElementById("message");
+      message.innerHTML = text;
+      message.style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
