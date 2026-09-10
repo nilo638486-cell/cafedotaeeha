@@ -148,8 +148,13 @@
 
   <div id="message"></div>
 
-</form>
-    <a class="back" href="index.html">
+
+    
+   </form>
+
+<iframe name="formspree-frame" style="display:none;"></iframe>
+
+<a class="back" href="index.html"> 
       ← برگشت به کافه
     </a>
 
@@ -161,21 +166,19 @@
     </main>
 
 <script>
-  function sendMessage(event) {
-    event.preventDefault();
 
-    const form = event.target;
+  function sendMessage(event) {
     const message = document.getElementById("message");
 
     message.innerHTML = "☕ حرفت به دست ما رسید.<br>ممنون که به کافه دوتایی‌ها اعتماد کردی. 🤍";
 
     message.style.display = "block";
-
-    setTimeout(() => {
-      form.submit();
-    }, 1200);
   }
 </script>
 
 </body>
 </html>
+    
+
+
+
