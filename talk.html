@@ -133,7 +133,7 @@
 
     
 
-<form class="writing-box" action="https://formspree.io/f/mppzknrg" method="POST" onsubmit="sendMessage(event)">
+<form class="writing-box" action="https://formspree.io/f/mppzknrg" method="POST" target="formspree-frame" onsubmit="sendMessage(event)">
 
   <textarea
     id="text"
@@ -157,24 +157,25 @@
       کافه دوتایی‌ها · اینجا جایی برای قضاوت نیست
     </footer>
 
-  </main>
+  
+    </main>
 
-  <script>
-    function sendMessage() {
-      const text = document.getElementById("text").value.trim();
-      const message = document.getElementById("message");
+<script>
+  function sendMessage(event) {
+    event.preventDefault();
 
-      if (text === "") {
-        message.innerHTML = "اول چند کلمه برای خودت بنویس؛ هرچقدر که دوست داری.";
-      } else {
-        message.innerHTML = "حرفت اینجا ماندگار شد. ❤️<br>فعلاً این نوشته فقط روی همین صفحه است و جایی ارسال نمی‌شود.";
-      }
+    const form = event.target;
+    const message = document.getElementById("message");
 
-      message.style.display = "block";
-    }
-  </script>
+    message.innerHTML = "☕ حرفت به دست ما رسید.<br>ممنون که به کافه دوتایی‌ها اعتماد کردی. 🤍";
 
+    message.style.display = "block";
 
+    setTimeout(() => {
+      form.submit();
+    }, 1200);
+  }
+</script>
 
 </body>
 </html>
