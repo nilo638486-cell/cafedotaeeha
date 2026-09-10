@@ -129,11 +129,8 @@
       لازم نیست مرتب بنویسی، لازم نیست همه‌چیز را توضیح بدهی.
       <br>
       از هر جایی که دلت خواست شروع کن.
-    </p>
-
     
-
-<form class="writing-box" action="https://formspree.io/f/mppzknrg" method="POST" target="formspree-frame" onsubmit="sendMessage(event)">
+<form class="writing-box" action="https://formspree.io/f/mppzknrg" method="POST" target="formspree-frame">
 
   <textarea
     id="text"
@@ -142,15 +139,15 @@
     required
   ></textarea>
 
-  <button class="send" type="submit">
+  <button class="send" type="button" onclick="showMessage()">
     حرفم را بسپار ☕
   </button>
 
   <div id="message"></div>
 
-
+</form>
     
-   </form>
+
 
 <iframe name="formspree-frame" style="display:none;"></iframe>
 
@@ -165,17 +162,23 @@
   
     </main>
 
-<script>
 
-  function sendMessage(event) {
+
+  <script>
+  function showMessage() {
+    const text = document.getElementById("text").value.trim();
     const message = document.getElementById("message");
 
-    message.innerHTML = "☕ حرفت به دست ما رسید.<br>ممنون که به کافه دوتایی‌ها اعتماد کردی. 🤍";
+    if (text === "") {
+      message.innerHTML = "اول چند کلمه برای خودت بنویس 🤍";
+      message.style.display = "block";
+      return;
+    }
 
+    message.innerHTML = "☕ حرفت به دست ما رسید.<br>ممنون که به کافه دوتایی‌ها اعتماد کردی. 🤍";
     message.style.display = "block";
   }
 </script>
-
 </body>
 </html>
     
