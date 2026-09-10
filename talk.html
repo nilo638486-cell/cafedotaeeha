@@ -131,18 +131,24 @@
       از هر جایی که دلت خواست شروع کن.
     </p>
 
-    <div class="writing-box">
+    
 
-      <textarea id="text" placeholder="هرچه در دلت هست، اینجا بنویس..."></textarea>
+<form class="writing-box" action="https://formspree.io/f/mppzknrg" method="POST">
 
-      <button class="send" onclick="sendMessage()">
-        حرفم را بسپار ☕
-      </button>
+  <textarea
+    id="text"
+    name="message"
+    placeholder="هرچه در دلت هست، اینجا بنویس..."
+    required
+  ></textarea>
 
-      <div id="message"></div>
+  <button class="send" type="submit">
+    حرفم را بسپار ☕
+  </button>
 
-    </div>
+  <div id="message"></div>
 
+</form>
     <a class="back" href="index.html">
       ← برگشت به کافه
     </a>
