@@ -1,2 +1,471 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+ <meta charset="UTF-8"> 
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>چای قندپهلو | کافه دوتایی‌ها</title>
+    <style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Tahoma, Arial, sans-serif;
+    background: #f7f1eb;
+    color: #3f3530;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+  }
+
+  .cafe {
+    width: 100%;
+    max-width: 650px;
+    background: white;
+    border-radius: 28px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(70, 50, 40, 0.12);
+  }
+
+  .cup {
+    font-size: 55px;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: 30px;
+    color: #5a4035;
+    margin-bottom: 15px;
+  }
+
+  .intro {
+    font-size: 17px;
+    line-height: 2;
+    color: #76645b;
+    margin-bottom: 25px;
+  }
+
+  .box {
+    background: #f8eee7;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 18px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 220px;
+    border: none;
+    outline: none;
+    resize: vertical;
+    border-radius: 15px;
+    padding: 18px;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 2;
+    color: #3f3530;
+    background: white;
+  }
+
+  button {
+    margin-top: 15px;
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    background: #8c6a5a;
+    color: white;
+  }
+
+  button.secondary {
+    background: #eee3db;
+    color: #5a4035;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  #message,
+  #messages {
+    margin-top: 20px;
+    background: #f8eee7;
+    border-radius: 18px;
+    padding: 18px;
+    line-height: 2;
+    text-align: right;
+  }
+
+  .reply {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 12px;
+  }
+
+  .guest-code {
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #8c6a5a;
+    direction: ltr;
+    margin: 10px 0;
+  }
+
+  .back {
+    display: inline-block;
+    margin-top: 22px;
+    color: #8c6a5a;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  footer {
+    margin-top: 25px;
+    font-size: 13px;
+    color: #9a8880;
+  }
+</style>
+</head>
+<body>
+  <main class="cafe">
+
+  <div class="cup">☕</div>
+
+  <h1>چای قندپهلو</h1>
+
+  <p class="intro">
+    اینجا می‌توانی حرفت را بگویی.<br>
+    لازم نیست مرتب بنویسی، لازم نیست همه‌چیز را توضیح بدهی.
+    <br>
+    از هر جایی که دلت خواست شروع کن.
+  </p>
+
+  <div id="welcomeBox" class="box">
+
+    <strong>به کافه دوتایی‌ها خوش آمدی 🤍</strong>
+
+    <p style="margin-top:12px;line-height:2;">
+      برای تو یک کد مهمان می‌سازیم.
+      این کد را نگه دار؛ با آن بعداً می‌توانی پاسخ کافه را ببینی.
+    </p>
+
+    <button onclick="createGuest()">
+      ☕ ساخت کد مهمان من
+    </button>
+
+    <div style="margin-top:20px;">
+      <input
+        id="existingCode"
+        type="text"
+        placeholder="اگر کد مهمان داری، اینجا وارد کن"
+        style="width:100%;padding:15px;border:1px solid #eadbd1;border-radius:15px;font-family:inherit;text-align:center;"
+      >
+
+      <button class="secondary" onclick="loadExistingGuest()">
+        دیدن پیام‌ها و پاسخ‌های من
+      </button>
+    </div>
+
+  </div>
+
+  <div id="guestBox" class="box hidden">
+
+    <strong>کد مهمان تو:</strong>
+
+    <div id="guestCode" class="guest-code"></div>
+
+    <p style="line-height:2;">
+      این کد را جایی امن نگه دار 🤍
+      <br>
+      برای دیدن پاسخ کافه به همین کد نیاز داری.
+    </p>
+
+    <textarea
+      id="text"
+      placeholder="هرچه در دلت هست، اینجا بنویس..."
+    ></textarea>
+
+    <button onclick="sendMessage()">
+      حرفم را بسپار ☕
+    </button>
+
+    <div id="message"></div>
+
+    <div id="messages"></div>
+
+    <button class="secondary" onclick="loadMessages()">
+      🔄 بررسی پاسخ کافه
+    </button>
+
+  </div>
+
+  <a class="back" href="index.html">
+    ← برگشت به کافه
+  </a>
+
+  <footer>
+    کافه دوتایی‌ها · اینجا جایی برای قضاوت نیست
+  </footer>
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+const SUPABASE_URL =
+  "https://yhudvnmcnfzqzmvvsidq.supabase.co";
+
 const SUPABASE_KEY =
   "sb_publishable_uwiO2pTxX2saMah42U9_0A_ams6ZxQR";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+</script>
+<script>
+
+let guestCode = localStorage.getItem("cafe_guest_code");
+
+function generateCode() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let code = "";
+
+  for (let i = 0; i < 8; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+
+  return code;
+}
+
+async function createGuest() {
+
+  const code = generateCode();
+
+  const { error } = await supabaseClient
+    .from("guests")
+    .insert({
+      guest_code: code
+    });
+
+  if (error) {
+    alert("فعلاً نتوانستیم کد مهمان بسازیم. دوباره امتحان کن.");
+    console.error(error);
+    return;
+  }
+
+  guestCode = code;
+
+  localStorage.setItem("cafe_guest_code", guestCode);
+
+  showGuestBox();
+}
+
+function showGuestBox() {
+
+  document.getElementById("welcomeBox")
+    .classList.add("hidden");
+
+  document.getElementById("guestBox")
+    .classList.remove("hidden");
+
+  document.getElementById("guestCode")
+    .innerText = guestCode;
+}
+
+</script>
+<script>
+
+async function loadExistingGuest() {
+
+  const code =
+    document.getElementById("existingCode")
+    .value
+    .trim()
+    .toUpperCase();
+
+  if (!code) {
+    alert("اول کد مهمانت را وارد کن 🤍");
+    return;
+  }
+
+  const { data, error } =
+    await supabaseClient
+      .from("guests")
+      .select("id")
+      .eq("guest_code", code)
+      .single();
+
+  if (error || !data) {
+    alert("این کد مهمان پیدا نشد.");
+    return;
+  }
+
+  guestCode = code;
+
+  localStorage.setItem(
+    "cafe_guest_code",
+    guestCode
+  );
+
+  showGuestBox();
+
+  loadMessages();
+}
+
+
+async function sendMessage() {
+
+  const text =
+    document.getElementById("text")
+    .value
+    .trim();
+
+  const messageBox =
+    document.getElementById("message");
+
+  if (!text) {
+    messageBox.innerHTML =
+      "اول چند کلمه برای خودت بنویس 🤍";
+    return;
+  }
+
+  const { data: guest, error: guestError } =
+    await supabaseClient
+      .from("guests")
+      .select("id")
+      .eq("guest_code", guestCode)
+      .single();
+
+  if (guestError || !guest) {
+    messageBox.innerHTML =
+      "کد مهمان پیدا نشد.";
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("messages")
+      .insert({
+        guest_id: guest.id,
+        message: text
+      });
+
+  if (error) {
+    messageBox.innerHTML =
+      "ارسال پیام انجام نشد. دوباره امتحان کن 🤍";
+    console.error(error);
+    return;
+  }
+
+  document.getElementById("text").value = "";
+
+  messageBox.innerHTML =
+    "☕ حرفت به دست کافه رسید.<br>" +
+    "کدت را نگه دار؛ وقتی پاسخی داشته باشی، همین‌جا می‌توانی ببینیش. 🤍";
+
+  loadMessages();
+}
+
+</script>
+<script>
+
+async function loadMessages() {
+
+  if (!guestCode) return;
+
+  const { data: guest, error: guestError } =
+    await supabaseClient
+      .from("guests")
+      .select("id")
+      .eq("guest_code", guestCode)
+      .single();
+
+  if (guestError || !guest) return;
+
+  const { data, error } =
+    await supabaseClient
+      .from("messages")
+      .select("message, reply, created_at, replied_at")
+      .eq("guest_id", guest.id)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const box =
+    document.getElementById("messages");
+
+  if (!data || data.length === 0) {
+    box.innerHTML =
+      "هنوز پیامی ثبت نشده است.";
+    return;
+  }
+
+  box.innerHTML =
+    "<strong>پیام‌های من</strong>";
+
+  data.forEach(item => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "reply";
+
+    div.innerHTML =
+      "<strong>پیام تو:</strong><br>" +
+      escapeHtml(item.message) +
+      "<br><br>" +
+
+      (
+        item.reply
+        ?
+        "<strong>☕ پاسخ کافه:</strong><br>" +
+        escapeHtml(item.reply)
+        :
+        "<span>هنوز پاسخی ثبت نشده 🤍</span>"
+      );
+
+    box.appendChild(div);
+
+  });
+}
+
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+}
+
+
+if (guestCode) {
+
+  showGuestBox();
+
+  loadMessages();
+
+}
+
+</script>
+
+</body>
+</html>
