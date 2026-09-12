@@ -347,12 +347,14 @@ async function sendMessage() {
       .select("id")
       .eq("guest_code", guestCode)
       .single();
-
-  if (guestError || !guest) {
-    messageBox.innerHTML =
-      "کد مهمان پیدا نشد.";
-    return;
-  }
+if (guestError || !guest) {
+  messageBox.innerHTML =
+    "خطای پیدا کردن کد: " +
+    (guestError ? guestError.message : "کد پیدا نشد");
+  console.error(guestError);
+  return;
+}
+  
 
   const { error } =
     await supabaseClient
