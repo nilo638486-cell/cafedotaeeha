@@ -259,10 +259,11 @@ async function createGuest() {
     });
 
   if (error) {
-    alert("فعلاً نتوانستیم کد مهمان بسازیم. دوباره امتحان کن.");
-    console.error(error);
-    return;
-  }
+  alert("خطا: " + error.message);
+  console.error(error);
+  return;
+}
+
 
   guestCode = code;
 
