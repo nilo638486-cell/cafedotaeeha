@@ -356,13 +356,14 @@ if (guestError || !guest) {
 }
   
 
-  const { error } =
+  const { data, error } =
     await supabaseClient
       .from("messages")
       .insert({
         guest_id: guest.id,
         message: text
-      });
+      })
+      .select();
 
   if (error) {
   messageBox.innerHTML =
