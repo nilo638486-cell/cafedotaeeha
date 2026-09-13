@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>پنل کافه | کافه دوتایی‌ها</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 25px;
+      font-family: Tahoma, sans-serif;
+      background: #f7f1ea;
+      color: #4d4038;
+    }
+
+    .box {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(70,50,40,.10);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .login {
+      text-align: center;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 20px;
+      margin-top: 8px;
+      cursor: pointer;
+      background: #806451;
+      color: white;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    .message {
+      border: 1px solid #eee;
+      border-radius: 18px;
+      padding: 20px;
+      margin: 20px 0;
+      background: #fffaf5;
+    }
+
+    .guest {
+      font-size: 13px;
+      color: #8a7565;
+      margin-bottom: 12px;
+    }
+
+    .reply {
+      margin-top: 12px;
+    }
+
+    #status {
+      text-align: center;
+      margin: 15px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <h1>☕ پنل کافه دوتایی‌ها</h1>
+
+  <div id="loginBox" class="login">
+
+    <p>ورود صاحب کافه 🤍</p>
+
+    <input
+      id="email"
+      type="email"
+      placeholder="ایمیل"
+    >
+
+    <input
+      id="password"
+      type="password"
+      placeholder="رمز عبور"
+    >
+
+    <button onclick="login()">
+      ورود به کافه ☕
+    </button>
+
+    <div id="loginStatus"></div>
+
+  </div>
+
+
+  <div id="adminBox" class="hidden">
+
+    <button onclick="loadMessages()">
+      🔄 دریافت پیام‌ها
+    </button>
+
+    <button onclick="logout()">
+      خروج
+    </button>
+
+    <div id="status"></div>
+
+    <div id="messages"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://yhudvnmcnfzqzmvvsidq.supabase.co";
+const SUPABASE_KEY =
+  "sb_publishable_uwiO2pTxX2saMah42U9_0A_ams6ZxQR";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+async function login() {
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  const status =
+    document.getElementById("loginStatus");
+
+  if (!email || !password) {
+    status.innerText =
+      "ایمیل و رمز عبور را وارد کن 🤍";
+    return;
+  }
+
+  status.innerText = "در حال ورود...";
+
+  const { error } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+  if (error) {
+
+    status.innerText =
+      "ورود ناموفق بود: " + error.message;
+
+    return;
+  }
+
+  document
+    .getElementById("loginBox")
+    .classList.add("hidden");
+
+  document
+    .getElementById("adminBox")
+    .classList.remove("hidden");
+
+  loadMessages();
+}
+
+
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  document
+    .getElementById("adminBox")
+    .classList.add("hidden");
+
+  document
+    .getElementById("loginBox")
+    .classList.remove("hidden");
+}
+
+
+async function loadMessages() {
+
+  const box =
+    document.getElementById("messages");
+
+  const status =
+    document.getElementById("status");
+
+  status.innerText =
+    "در حال دریافت پیام‌ها...";
+
+  const { data, error } =
+    await supabaseClient
+      .from("messages")
+      .select(`
+        id,
+        guest_id,
+        message,
+        reply,
+        created_at,
+        replied_at,
+        guests (
+          guest_code
+        )
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    status.innerText =
+      "خطا: " + error.message;
+
+    console.error(error);
+
+    return;
+  }
+
+  status.innerText =
+    data.length + " پیام پیدا شد.";
+
+  box.innerHTML = "";
+
+  if (data.length === 0) {
+
+    box.innerHTML =
+      "<p>هنوز پیامی وجود ندارد ☕</p>";
+
+    return;
+  }
+
+  data.forEach(item => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "message";
+
+    const guestCode =
+      item.guests
+      ? item.guests.guest_code
+      : "نامشخص";
+
+    div.innerHTML = `
+
+      <div class="guest">
+        کد مهمان: <strong>${escapeHtml(guestCode)}</strong>
+      </div>
+
+      <div>
+        <strong>💬 پیام مهمان:</strong>
+        <br><br>
+        ${escapeHtml(item.message)}
+      </div>
+
+      <div class="reply">
+
+        <strong>☕ پاسخ کافه:</strong>
+
+        <textarea
+          id="reply-${item.id}"
+          placeholder="پاسخت را اینجا بنویس..."
+        >${item.reply ? escapeHtml(item.reply) : ""}</textarea>
+
+        <button onclick="saveReply(${item.id})">
+          💌 ارسال پاسخ
+        </button>
+
+      </div>
+
+    `;
+
+    box.appendChild(div);
+
+  });
+}
+
+
+async function saveReply(id) {
+
+  const textarea =
+    document.getElementById(
+      "reply-" + id
+    );
+
+  const reply =
+    textarea.value.trim();
+
+  if (!reply) {
+
+    alert("اول پاسخ را بنویس 🤍");
+
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("messages")
+      .update({
+        reply: reply,
+        replied_at: new Date().toISOString()
+      })
+      .eq("id", id);
+
+  if (error) {
+
+    alert(
+      "ارسال پاسخ انجام نشد: " +
+      error.message
+    );
+
+    console.error(error);
+
+    return;
+  }
+
+  alert("پاسخ با موفقیت ثبت شد ☕🤍");
+
+  loadMessages();
+}
+
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    text || "";
+
+  return div.innerHTML;
+}
+
+</script>
+
+</body>
+</html>
