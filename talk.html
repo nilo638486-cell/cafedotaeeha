@@ -356,21 +356,22 @@ if (guestError || !guest) {
 }
   
 
-  const { data, error } =
-    await supabaseClient
-      .from("messages")
-      .insert({
-        guest_id: guest.id,
-        message: text
-      })
-      
+  const { error } =
+  await supabaseClient
+    .from("messages")
+    .insert({
+      guest_id: guest.id,
+      message: text
+    });
 
-  if (error) {
+if (error) {
   messageBox.innerHTML =
     "خطا: " + error.message;
   console.error(error);
   return;
 }
+      
+
 
   document.getElementById("text").value = "";
 
