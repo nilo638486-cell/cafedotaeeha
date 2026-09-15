@@ -329,7 +329,9 @@ async function loadExistingGuest() {
 
   showGuestBox();
 
-  await loadMessages();
+  setTimeout(() => {
+    loadMessages();
+  }, 100);
 }
 
 async function sendMessage() {
