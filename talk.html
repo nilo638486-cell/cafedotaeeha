@@ -492,15 +492,121 @@ data.forEach(item => {
 
 });
 
+<script>
+
+async function loadMessages() {
+
+  alert("loadMessages اجرا شد");
+
+  if (!guestCode) {
+    alert("کد مهمان وجود ندارد");
+    return;
+  }
+
+  alert("مرحله پیدا کردن مهمان");
+
+  const { data: guest, error: guestError } =
+    await supabaseClient
+      .from("guests")
+      .select("id")
+      .eq("guest_code", guestCode)
+      .single();
+
+  if (guestError || !guest) {
+    console.error(guestError);
+
+    document.getElementById("messages").innerHTML =
+      "خطا در پیدا کردن کد مهمان: " +
+      escapeHtml(
+        guestError
+          ? guestError.message
+          : "کد مهمان پیدا نشد"
+      );
+
+    return;
+  }
+
+  const { data, error } =
+    await supabaseClient
+      .from("messages")
+      .select("message, reply, created_at, replied_at")
+      .eq("guest_id", guest.id)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(error);
+
+    document.getElementById("messages").innerHTML =
+      "خطا در دریافت پیام‌ها: " +
+      escapeHtml(error.message);
+
+    return;
+  }
+
+  const box =
+    document.getElementById("messages");
+
+  if (!data || data.length === 0) {
+
+    box.innerHTML =
+      "هنوز پیامی ثبت نشده است.";
+
+    return;
+  }
+
+  box.innerHTML =
+    "<strong class='messages-title'>پیام‌های من</strong>";
+
+  data.forEach(item => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "reply";
+
+    div.innerHTML =
+      "<div class='guest-message'>" +
+        "<div class='message-label'>💬 تو گفتی</div>" +
+        "<div class='message-text'>" +
+          escapeHtml(item.message) +
+        "</div>" +
+      "</div>" +
+
+      (
+        item.reply
+        ?
+        "<div class='cafe-reply'>" +
+          "<div class='message-label'>☕ کافه</div>" +
+          "<div class='message-text'>" +
+            escapeHtml(item.reply) +
+          "</div>" +
+        "</div>"
+        :
+        "<div class='waiting-reply'>" +
+          "هنوز پاسخی ثبت نشده 🤍" +
+        "</div>"
+      );
+
+    box.appendChild(div);
+
+  });
+
+}
+
 
 function escapeHtml(text) {
 
   const div =
     document.createElement("div");
 
-  div.textContent = text;
+  div.textContent =
+    text || "";
 
   return div.innerHTML;
+
 }
 
 
@@ -513,6 +619,7 @@ if (guestCode) {
 }
 
 </script>
+
 
 </body>
 </html>
