@@ -397,17 +397,13 @@ async function sendMessage() {
   loadMessages();
 }
 
-
 async function loadMessages() {
-
-  alert("loadMessages اجرا شد");
 
   if (!guestCode) {
     alert("کد مهمان وجود ندارد");
     return;
   }
 
-  alert("مرحله پیدا کردن مهمان");
 
   const { data: guest, error: guestError } =
     await supabaseClient
