@@ -293,6 +293,7 @@ function showGuestBox() {
 </script>
 <script>
 
+
 async function loadExistingGuest() {
 
   const code =
@@ -315,6 +316,7 @@ async function loadExistingGuest() {
 
   if (error || !data) {
     alert("این کد مهمان پیدا نشد.");
+    console.error(error);
     return;
   }
 
@@ -327,9 +329,8 @@ async function loadExistingGuest() {
 
   showGuestBox();
 
-  loadMessages();
+  await loadMessages();
 }
-
 
 async function sendMessage() {
 
