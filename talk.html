@@ -56,7 +56,7 @@
     padding: 20px;
     margin-top: 18px;
   }
-
+ه
   textarea {
     width: 100%;
     min-height: 220px;
@@ -301,9 +301,7 @@ function showGuestBox() {
     .innerText = guestCode;
 }
 
-</script>
 <script>
-
 
 async function loadExistingGuest() {
 
@@ -338,14 +336,14 @@ async function loadExistingGuest() {
     guestCode
   );
 
-showGuestBox();
+  showGuestBox();
 
-alert("به مرحله دریافت پیام‌ها رسیدیم");
-
+  alert("به مرحله دریافت پیام‌ها رسیدیم");
 
   loadMessages();
-
 }
+
+
 async function sendMessage() {
 
   const text =
@@ -368,45 +366,46 @@ async function sendMessage() {
       .select("id")
       .eq("guest_code", guestCode)
       .single();
-if (guestError || !guest) {
-  messageBox.innerHTML =
-    "خطای پیدا کردن کد: " +
-    (guestError ? guestError.message : "کد پیدا نشد");
-  console.error(guestError);
-  return;
-}
-  
+
+  if (guestError || !guest) {
+
+    messageBox.innerHTML =
+      "خطای پیدا کردن کد: " +
+      (guestError
+        ? guestError.message
+        : "کد پیدا نشد");
+
+    console.error(guestError);
+    return;
+  }
 
   const { error } =
-  await supabaseClient
-    .from("messages")
-    .insert({
-      guest_id: guest.id,
-      message: text
-    });
+    await supabaseClient
+      .from("messages")
+      .insert({
+        guest_id: guest.id,
+        message: text
+      });
 
-if (error) {
-  messageBox.innerHTML =
-    "خطا: " + error.message;
-  console.error(error);
-  return;
-}
-      
+  if (error) {
 
+    messageBox.innerHTML =
+      "خطا: " + error.message;
+
+    console.error(error);
+    return;
+  }
 
   document.getElementById("text").value = "";
 
   messageBox.innerHTML =
     "☕ حرفت به دست کافه رسید.<br>" +
-    "کدت را نگه دار؛ وقتی پاسخی داشته باشی، همین‌جا می‌توانی ببینیش. 🤍";
+    "کدت را نگه دار؛ وقتی پاسخی داشته باشی، " +
+    "همین‌جا می‌توانی ببینیش. 🤍";
 
   loadMessages();
 }
 
-</script>
-<script>
-
-<script>
 
 async function loadMessages() {
 
@@ -432,7 +431,9 @@ async function loadMessages() {
 
     document.getElementById("messages").innerHTML =
       "خطا در پیدا کردن کد مهمان: " +
-      (guestError ? guestError.message : "کد پیدا نشد");
+      (guestError
+        ? guestError.message
+        : "کد پیدا نشد");
 
     return;
   }
@@ -440,7 +441,9 @@ async function loadMessages() {
   const { data, error } =
     await supabaseClient
       .from("messages")
-      .select("message, reply, created_at, replied_at")
+      .select(
+        "message, reply, created_at, replied_at"
+      )
       .eq("guest_id", guest.id)
       .order("created_at", {
         ascending: false
@@ -469,7 +472,8 @@ async function loadMessages() {
   }
 
   box.innerHTML =
-    "<strong class='messages-title'>پیام‌های من</strong>";
+    "<strong class='messages-title'>" +
+    "پیام‌های من</strong>";
 
   data.forEach(item => {
 
@@ -480,7 +484,9 @@ async function loadMessages() {
 
     div.innerHTML =
       "<div class='guest-message'>" +
-        "<div class='message-label'>💬 تو گفتی</div>" +
+        "<div class='message-label'>" +
+          "💬 تو گفتی" +
+        "</div>" +
         "<div class='message-text'>" +
           escapeHtml(item.message) +
         "</div>" +
@@ -490,12 +496,16 @@ async function loadMessages() {
         item.reply
         ?
         "<div class='cafe-reply'>" +
-          "<div class='message-label'>☕ کافه</div>" +
+          "<div class='message-label'>" +
+            "☕ کافه" +
+          "</div>" +
           "<div class='message-text'>" +
             escapeHtml(item.reply) +
           "</div>" +
         "</div>"
+
         :
+
         "<div class='waiting-reply'>" +
           "هنوز پاسخی ثبت نشده 🤍" +
         "</div>"
@@ -504,7 +514,6 @@ async function loadMessages() {
     box.appendChild(div);
 
   });
-
 }
 
 
@@ -517,7 +526,6 @@ function escapeHtml(text) {
     text || "";
 
   return div.innerHTML;
-
 }
 
 
@@ -533,3 +541,4 @@ if (guestCode) {
 
 </body>
 </html>
+
