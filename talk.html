@@ -415,9 +415,17 @@ async function loadMessages() {
       });
 
   if (error) {
-    console.error(error);
-    return;
-  }
+  console.error(error);
+
+  const box =
+    document.getElementById("messages");
+
+  box.innerHTML =
+    "خطا در دریافت پیام‌ها: " +
+    escapeHtml(error.message);
+
+  return;
+}
 
   const box =
     document.getElementById("messages");
