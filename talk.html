@@ -401,7 +401,7 @@ async function loadMessages() {
   alert("loadMessages اجرا شد");
 
   if (!guestCode) return;
-
+alert("مرحله پیدا کردن مهمان");
   const { data: guest, error: guestError } =
     await supabaseClient
       .from("guests")
