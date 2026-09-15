@@ -274,8 +274,16 @@ async function createGuest() {
   guestCode = code;
 
   localStorage.setItem("cafe_guest_code", guestCode);
+showGuestBox();
 
-  showGuestBox();
+alert("به مرحله دریافت پیام‌ها رسیدیم");
+
+alert(typeof loadMessages);
+
+loadMessages();
+
+}
+  
 }
 
 function showGuestBox() {
