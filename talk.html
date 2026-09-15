@@ -327,11 +327,13 @@ async function loadExistingGuest() {
     guestCode
   );
 
-  showGuestBox();
+showGuestBox();
 
-  setTimeout(() => {
-    loadMessages();
-  }, 100);
+alert("به مرحله دریافت پیام‌ها رسیدیم");
+
+setTimeout(() => {
+  loadMessages();
+}, 100);
 }
 
 async function sendMessage() {
