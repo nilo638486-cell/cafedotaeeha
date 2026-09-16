@@ -253,7 +253,18 @@ async function loadMessages() {
 
     status.innerText =
       "خطا: " + error.message;
+const newMessages =
+  data.filter(item => !item.reply).length;
 
+const alertBox =
+  document.getElementById("newMessageAlert");
+
+if (newMessages > 0) {
+  alertBox.innerText =
+    "🔔 " + newMessages + " پیام منتظر پاسخ است";
+} else {
+  alertBox.innerText = "";
+}
     console.error(error);
 
     return;
