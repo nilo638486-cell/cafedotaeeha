@@ -210,7 +210,7 @@ async function login() {
 async function logout() {
 
   await supabaseClient.auth.signOut();
-
+clearInterval(messageChecker);
   document
     .getElementById("adminBox")
     .classList.add("hidden");
