@@ -343,7 +343,32 @@ box.innerHTML = "";
   });
 }
 
+async function checkNewMessages() {
 
+  const { count, error } =
+    await supabaseClient
+      .from("messages")
+      .select("id", {
+        count: "exact",
+        head: true
+      })
+      .is("reply", null);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const alertBox =
+    document.getElementById("newMessageAlert");
+
+  if (count > 0) {
+    alertBox.innerText =
+      "🔔 " + count + " پیام منتظر پاسخ است";
+  } else {
+    alertBox.innerText = "";
+  }
+}
 async function saveReply(id) {
 
   const textarea =
