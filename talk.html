@@ -503,7 +503,14 @@ async function loadMessages() {
   });
 }
 
+let replyChecker;
 
+async function checkForReplies() {
+
+  if (!guestCode) return;
+
+  await loadMessages();
+}
 function escapeHtml(text) {
 
   const div =
