@@ -203,6 +203,7 @@ async function login() {
     .classList.remove("hidden");
 
   loadMessages();
+  messageChecker = setInterval(checkNewMessages, 10000);
 }
 
 
