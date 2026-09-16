@@ -70,6 +70,7 @@
       padding: 20px;
       margin: 20px 0;
       background: #fffaf5;
+      transition: 0.2s;
     }
 
     .guest {
@@ -302,7 +303,9 @@ box.innerHTML = "";
     const div =
       document.createElement("div");
 
-    div.className = "message";
+    div.className = item.reply
+  ? "message"
+  : "message unanswered";
 
     const guestCode =
       item.guests
