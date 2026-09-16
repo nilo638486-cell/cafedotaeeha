@@ -318,7 +318,7 @@ box.innerHTML = "";
       : "نامشخص";
 
     div.innerHTML = `
-
+${!item.reply ? '<div style="color:#c27b45; font-weight:bold; margin-bottom:10px;">🔔 منتظر پاسخ</div>' : ''}
       <div class="guest">
         کد مهمان: <strong>${escapeHtml(guestCode)}</strong>
       </div>
