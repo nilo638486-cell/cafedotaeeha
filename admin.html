@@ -261,10 +261,14 @@ async function loadMessages() {
           guest_code
         )
       `)
-      .order("created_at", {
-        ascending: false
-      });
-
+      
+.order("reply", {
+  ascending: true,
+  nullsFirst: true
+})
+.order("created_at", {
+  ascending: false
+});
   if (error) {
 
     status.innerText =
