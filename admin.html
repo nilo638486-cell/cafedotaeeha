@@ -271,9 +271,22 @@ if (newMessages > 0) {
   }
 
   status.innerText =
-    data.length + " پیام پیدا شد.";
+  data.length + " پیام پیدا شد.";
 
-  box.innerHTML = "";
+const newMessages =
+  data.filter(item => !item.reply).length;
+
+const alertBox =
+  document.getElementById("newMessageAlert");
+
+if (newMessages > 0) {
+  alertBox.innerText =
+    "🔔 " + newMessages + " پیام منتظر پاسخ است";
+} else {
+  alertBox.innerText = "";
+}
+
+box.innerHTML = "";
 
   if (data.length === 0) {
 
