@@ -171,6 +171,29 @@
     }
   </script>
 
-  
+  <script>
+  const visitorIdKey = "cafe_visitor_id";
+
+  let visitorId = localStorage.getItem(visitorIdKey);
+
+  if (!visitorId) {
+    visitorId = crypto.randomUUID();
+    localStorage.setItem(visitorIdKey, visitorId);
+  }
+
+  fetch("https://yhudvnmcnfzqzmvvsidq.supabase.co/rest/v1/site_visits", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": "کلید anon پروژه‌ات",
+      "Authorization": "Bearer کلید anon پروژه‌ات",
+      "Prefer": "return=minimal"
+    },
+    body: JSON.stringify({
+      visitor_id: visitorId,
+      page: "index"
+    })
+  });
+</script>
 </body>
 </html>
