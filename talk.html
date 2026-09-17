@@ -319,11 +319,7 @@ const { data, error } =
 
 const guest = data && data.length > 0 ? data[0] : null;
 
-if (error || !guest) {
-  alert("این کد مهمان پیدا نشد.");
-  console.error(error);
-  return;
-}  
+
 
   if (error || !data) {
     alert("این کد مهمان پیدا نشد.");
