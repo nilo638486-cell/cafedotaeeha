@@ -249,14 +249,12 @@ supabaseClient.rpc(
     p_visitor_id: visitorId,
     p_page: "index"
   }
-).then(({ data, error }) => {
+).then(({ error }) => {
+
   if (error) {
-    console.log("VISIT ERROR:", error);
-    alert("خطای ثبت بازدید: " + error.message);
-  } else {
-    console.log("VISIT SUCCESS:", data);
-    alert("بازدید ثبت شد ❤️");
+    console.error("خطای ثبت بازدید:", error);
   }
+
 });
   {
     p_visitor_id: visitorId,
