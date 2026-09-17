@@ -186,7 +186,27 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
-supabaseClient.rpc("register_site_visit");
+const visitorIdKey = "cafe_visitor_id";
+
+let visitorId =
+  localStorage.getItem(visitorIdKey);
+
+if (!visitorId) {
+  visitorId = crypto.randomUUID();
+
+  localStorage.setItem(
+    visitorIdKey,
+    visitorId
+  );
+}
+
+supabaseClient.rpc(
+  "register_site_visit",
+  {
+    p_visitor_id: visitorId,
+    p_page: "index"
+  }
+);
 </script>
 </body>
 </html>
