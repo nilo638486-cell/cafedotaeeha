@@ -90,7 +90,7 @@
       شاید یکی از این‌ها امروز کمی شبیه حال تو باشد.
     </p>
 
-    <button class="mood">🌧️ امروز دلم گرفته</button>
+    <button class="mood" onclick="showText(1)">🌧️ امروز دلم گرفته</button>
 
     <button class="mood">😂 امروز فقط می‌خوام بخندم</button>
 
@@ -107,7 +107,13 @@
     </a>
 
   </div>
-
+<script>
+  function showText(number) {
+    if (number === 1) {
+      alert("اینجا متن «امروز دلم گرفته» باز می‌شود 🤍");
+    }
+  }
+</script>
 </body>
 
 </html>
