@@ -310,12 +310,20 @@ async function loadExistingGuest() {
     return;
   }
 
-  const { data, error } =
-    await supabaseClient
-      .from("guests")
-      .select("id")
-      .eq("guest_code", code)
-      .single();
+const { data, error } =
+  await supabaseClient
+    .from("guests")
+    .select("id")
+    .eq("guest_code", code)
+    .limit(1);
+
+const guest = data && data.length > 0 ? data[0] : null;
+
+if (error || !guest) {
+  alert("این کد مهمان پیدا نشد.");
+  console.error(error);
+  return;
+}  
 
   if (error || !data) {
     alert("این کد مهمان پیدا نشد.");
@@ -352,12 +360,14 @@ async function sendMessage() {
     return;
   }
 
-  const { data: guest, error: guestError } =
-    await supabaseClient
-      .from("guests")
-      .select("id")
-      .eq("guest_code", guestCode)
-      .single();
+  const { data: guests, error: guestError } =
+  await supabaseClient
+    .from("guests")
+    .select("id")
+    .eq("guest_code", guestCode)
+    .limit(1);
+
+const guest = guests && guests.length > 0 ? guests[0] : null;
 
   if (guestError || !guest) {
 
@@ -405,13 +415,15 @@ async function loadMessages() {
     return;
   }
 
+const { data: guests, error: guestError } =
+  await supabaseClient
+    .from("guests")
+    .select("id")
+    .eq("guest_code", guestCode)
+    .limit(1);
 
-  const { data: guest, error: guestError } =
-    await supabaseClient
-      .from("guests")
-      .select("id")
-      .eq("guest_code", guestCode)
-      .single();
+const guest = guests && guests.length > 0 ? guests[0] : null;
+  
 
   if (guestError || !guest) {
 
