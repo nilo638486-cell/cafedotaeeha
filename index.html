@@ -171,29 +171,22 @@
     }
   </script>
 
-  <script>
-  const visitorIdKey = "cafe_visitor_id";
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  let visitorId = localStorage.getItem(visitorIdKey);
+<script>
+const SUPABASE_URL =
+  "https://yhudvnmcnfzqzmvvsidq.supabase.co";
 
-  if (!visitorId) {
-    visitorId = crypto.randomUUID();
-    localStorage.setItem(visitorIdKey, visitorId);
-  }
+const SUPABASE_KEY =
+  "sb_publishable_uwiO2pTxX2saMah42U9_0A_ams6ZxQR";
 
-  fetch("https://yhudvnmcnfzqzmvvsidq.supabase.co/rest/v1/site_visits", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": "کلید anon پروژه‌ات",
-      "Authorization": "Bearer کلید anon پروژه‌ات",
-      "Prefer": "return=minimal"
-    },
-    body: JSON.stringify({
-      visitor_id: visitorId,
-      page: "index"
-    })
-  });
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+supabaseClient.rpc("register_site_visit");
 </script>
 </body>
 </html>
