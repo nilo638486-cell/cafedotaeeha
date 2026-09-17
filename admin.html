@@ -221,6 +221,7 @@ async function login() {
     .classList.remove("hidden");
 
   loadMessages();
+  loadVisitCount();
   messageChecker = setInterval(checkNewMessages, 10000);
 }
 
@@ -436,7 +437,29 @@ async function saveReply(id) {
   loadMessages();
 }
 
+async function loadVisitCount() {
 
+  const { count, error } =
+    await supabaseClient
+      .from("site_visits")
+      .select("id", {
+        count: "exact",
+        head: true
+      });
+
+  const visitBox =
+    document.getElementById("visitCount");
+
+  if (error) {
+    visitBox.innerText =
+      "👁️ خطا در دریافت بازدیدها";
+    console.error(error);
+    return;
+  }
+
+  visitBox.innerText =
+    "👁️ تعداد بازدیدها: " + count;
+}
 function escapeHtml(text) {
 
   const div =
